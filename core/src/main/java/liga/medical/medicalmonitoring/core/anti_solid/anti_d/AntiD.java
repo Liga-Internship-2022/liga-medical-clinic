@@ -1,4 +1,4 @@
-package liga.medical.medicalmonitoring.core.anti_solid;
+package liga.medical.medicalmonitoring.core.anti_solid.anti_d;
 
 // данный класс привязан к SimpleWriter и к OtherWriter (depends on)
 // решение: сделать так, чтобы данный класс зависел от интерфейса Writer (абстракции), а не от его реализаций
@@ -11,14 +11,9 @@ public class AntiD {
         this.simpleWriter = simpleWriter;
         this.otherWriter = otherWriter;
     }
-}
 
-class SimpleWriter {
-    public void write() {
-    }
-}
-
-class OtherWriter {
-    public void write() {
+    public void someMethod() {
+        simpleWriter.write();
+        otherWriter.write();
     }
 }

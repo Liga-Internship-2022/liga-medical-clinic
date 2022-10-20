@@ -1,9 +1,8 @@
-package liga.medical.medicalmonitoring.core.anti_solid;
+package liga.medical.medicalmonitoring.core.anti_solid.anti_o;
 
+// класс ShapeHandler
+// должен уметь вычислять площадь фигур и тд
 public class AntiO {
-
-    // класс ShapeHandler
-    // должен уметь вычислять площадь фигур и тд
 
     public int getArea(Circle circle) {
         // circle.getArea(double radius);
@@ -15,13 +14,6 @@ public class AntiO {
         return 0;
     }
 }
-
-class Circle {
-}
-
-class Square {
-}
-
 // как нужно:
 // нужно создать абстрактный класс Shape с необходимыми методами, в том числе int getArea(Shape shape)
 // и каждая фигура будет расширять Shape и реализовывать свою логику

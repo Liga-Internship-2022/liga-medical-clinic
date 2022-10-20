@@ -1,4 +1,4 @@
-package liga.medical.medicalmonitoring.core.anti_solid;
+package liga.medical.medicalmonitoring.core.anti_solid.anti_s;
 
 import java.util.ArrayList;
 import java.util.List;
