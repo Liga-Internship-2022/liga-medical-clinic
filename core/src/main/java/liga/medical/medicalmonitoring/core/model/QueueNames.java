@@ -1,4 +1,4 @@
-package liga.medical.medicalmonitoring.router.model;
+package liga.medical.medicalmonitoring.core.model;
 
 public final class QueueNames {
 

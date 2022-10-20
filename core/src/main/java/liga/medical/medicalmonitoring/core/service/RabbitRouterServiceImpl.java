@@ -1,11 +1,11 @@
-package liga.medical.medicalmonitoring.router.service;
+package liga.medical.medicalmonitoring.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import liga.medical.medicalmonitoring.router.api.RabbitRouterService;
-import liga.medical.medicalmonitoring.router.api.RabbitSenderService;
-import liga.medical.medicalmonitoring.router.model.MessageType;
-import liga.medical.medicalmonitoring.router.model.QueueNames;
-import liga.medical.medicalmonitoring.router.model.RabbitMessageDto;
+import liga.medical.medicalmonitoring.core.api.RabbitRouterService;
+import liga.medical.medicalmonitoring.core.api.RabbitSenderService;
+import liga.medical.medicalmonitoring.core.model.MessageType;
+import liga.medical.medicalmonitoring.core.model.QueueNames;
+import liga.medical.medicalmonitoring.core.model.RabbitMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
