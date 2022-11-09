@@ -9,7 +9,7 @@ import model.RabbitMessageDto;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
-import static liga.medical.medicalmonitoring.core.model.QueueNames.ERROR_QUEUE_NAME;
+import static model.QueueNames.ERROR_QUEUE_NAME;
 import static model.SystemType.MESSAGE_ANALYZER;
 
 @Service

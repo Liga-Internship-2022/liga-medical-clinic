@@ -1,6 +1,6 @@
 package liga.medical.medicalmonitoring.core.config;
 
-import liga.medical.medicalmonitoring.core.model.QueueNames;
+import model.QueueNames;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
