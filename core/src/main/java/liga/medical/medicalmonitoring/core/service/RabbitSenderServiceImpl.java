@@ -1,19 +1,22 @@
-package liga.medical.medicalmonitoring.router.service;
+package liga.medical.medicalmonitoring.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import liga.medical.medicalmonitoring.router.api.RabbitSenderService;
-import liga.medical.medicalmonitoring.router.model.QueueNames;
-import liga.medical.medicalmonitoring.router.model.RabbitMessageDto;
+import liga.medical.medicalmonitoring.api.RabbitSenderService;
+import liga.medical.service.LoggingService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import model.RabbitMessageDto;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
+import static model.QueueNames.ERROR_QUEUE_NAME;
+import static model.SystemType.MESSAGE_ANALYZER;
+
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class RabbitSenderServiceImpl implements RabbitSenderService {
+
+    private final LoggingService loggingService;
 
     private final AmqpTemplate amqpTemplate;
 
@@ -23,12 +26,14 @@ public class RabbitSenderServiceImpl implements RabbitSenderService {
     public void sendMessage(RabbitMessageDto messageDto, String queue) throws JsonProcessingException {
         String messageFromJson = objectMapper.writeValueAsString(messageDto);
         amqpTemplate.convertAndSend(queue, messageFromJson);
-        log.info("Сообщение [{}] отправлено в очередь [{}]", messageFromJson, queue);
+
+        loggingService.logQueueMessageSending(messageDto, queue, MESSAGE_ANALYZER);
     }
 
     @Override
     public void sendError(String message) {
-        amqpTemplate.convertAndSend(QueueNames.ERROR_QUEUE_NAME, message);
-        log.info("Сообщение об ошибке [{}] отправлено в очередь [{}]", message, QueueNames.ERROR_QUEUE_NAME);
+        amqpTemplate.convertAndSend(ERROR_QUEUE_NAME, message);
+
+        loggingService.logQueueSendingException(message, ERROR_QUEUE_NAME, MESSAGE_ANALYZER);
     }
 }

@@ -1,20 +1,22 @@
-package liga.medical.medicalmonitoring.router.service;
+package liga.medical.medicalmonitoring.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import liga.medical.medicalmonitoring.router.api.RabbitRouterService;
-import liga.medical.medicalmonitoring.router.api.RabbitSenderService;
-import liga.medical.medicalmonitoring.router.model.MessageType;
-import liga.medical.medicalmonitoring.router.model.QueueNames;
-import liga.medical.medicalmonitoring.router.model.RabbitMessageDto;
+import liga.medical.medicalmonitoring.api.RabbitRouterService;
+import liga.medical.medicalmonitoring.api.RabbitSenderService;
+import liga.medical.service.LoggingService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import model.MessageType;
+import model.QueueNames;
+import model.RabbitMessageDto;
 import org.springframework.stereotype.Service;
 
+import static model.SystemType.MEDICAL_MONITORING;
+
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class RabbitRouterServiceImpl implements RabbitRouterService {
 
+    private final LoggingService loggingService;
     private final RabbitSenderService rabbitSenderService;
 
     private final ObjectMapper objectMapper;
@@ -23,6 +25,7 @@ public class RabbitRouterServiceImpl implements RabbitRouterService {
     public void routeMessage(String message) {
         try {
             RabbitMessageDto rabbitMessageDto = objectMapper.readValue(message, RabbitMessageDto.class);
+            loggingService.logQueueMessageReceiving(rabbitMessageDto, QueueNames.ROUTER_QUEUE_NAME, MEDICAL_MONITORING);
             MessageType messageType = rabbitMessageDto.getMessageType();
 
             switch (messageType) {
@@ -36,7 +39,8 @@ public class RabbitRouterServiceImpl implements RabbitRouterService {
                     rabbitSenderService.sendMessage(rabbitMessageDto, QueueNames.ERROR_QUEUE_NAME);
                     break;
                 default:
-                    log.info("Cannot send message [{}] to any queue", rabbitMessageDto);
+                    rabbitSenderService.sendError("Не удалось отправить сообщение [" +
+                            rabbitMessageDto + "] в одну из очередей");
             }
         } catch (Exception e) {
             rabbitSenderService.sendError(e.getMessage());

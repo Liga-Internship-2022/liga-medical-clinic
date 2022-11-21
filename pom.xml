@@ -20,7 +20,6 @@
         <module>core-api</module>
         <module>utils</module>
         <module>core</module>
-        <module>router</module>
     </modules>
 
     <dependencies>
